@@ -1,0 +1,30 @@
+{
+  "name": "microservice-dataprocessor",
+  "version": "1.0.0",
+  "description": "data processor API for dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js --ext js",
+    "start": "node src/index.js"
+  },
+  "author": "rukmals",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chalk": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "ieee754": "^1.2.1",
+    "jsmodbus": "^4.0.5",
+    "modbus-rtu": "^0.2.1",
+    "modbus-serial": "^8.0.1",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "sql": "^0.78.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
