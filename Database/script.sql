@@ -23,7 +23,7 @@ create table temp_rawdata (
     temp_t10 int not null default 0,
     logtime timestamp default current_timestamp
 );
-select * from temp_rawdata;
+select * from kiln.temp_rawdata;
 delete from temp_rawdata;
 alter table temp_rawdata auto_increment = 0;
 select date(logtime) as date, 
@@ -114,7 +114,7 @@ create table inv_savedata (
     timevalue int not null default 0,
     logtime timestamp default current_timestamp
 );
-select * from inv_savedata;
+select * from kiln.inv_savedata;
 delete from inv_savedata;
 insert into inv_savedata(inv1, inv2, inv3, timevalue) values(123.6,125.5,456.6,60);
 update inv_savedata set inv1 = 123 where id = 1;

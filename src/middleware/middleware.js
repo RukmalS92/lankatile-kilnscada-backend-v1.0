@@ -29,11 +29,11 @@ const saveTempSV =  async (req,res,next) => {
 //middleware to save SV values : Inverter to database
 const saveInvSV = async (req,res,next) => {
     try {
-        const values = Object.values(req.body)
-        const lengthViolationElements = values.filter((value) => value >= 100)
-        if(lengthViolationElements > 0){
-            throw new Error("Exeeds Inverter control variable than 100")
-        }
+        // const values = Object.values(req.body)
+        // const lengthViolationElements = values.filter((value) => value >= 100)
+        // if(lengthViolationElements > 0){
+        //     throw new Error("Exeeds Inverter control variable than 100")
+        // }
         await database.setSVInvData(req.body)
         next();
     } catch (error) {
@@ -43,20 +43,23 @@ const saveInvSV = async (req,res,next) => {
 }
 
 //update timevalue calibration value
-const timevalueCalibration = (req,res,next) => {
+const getinv3ID = (req,res,next) => {
     req.invid = invIDs[2];
-    req.svfreq = req.body.timevalue * timevalue_calibration;
-    req.body = {
-        inv3 : req.svfreq,
-        timevalue : req.body.timevalue
-    }
+    req.value = req.body.inv3;
     next();
 }
 
 //get inv ids for secondary inverters
-const getSecondaryInvID = (req,res,next) => {
+const cycleTimeFreqUdpateINV1INV2 = (req,res,next) => {
     req.keys = invIDs.slice(0,2)
     req.values = Object.values(req.body)
+    const inv1freq = (timevalue_calibration / req.body.timevalue).toFixed(1);
+    const inv2freq = (timevalue_calibration / req.body.timevalue).toFixed(1);
+    req.body = {
+        inv1 : inv1freq,
+        inv2 : inv2freq,
+        timevalue : req.body.timevalue
+    }
     next();
 }
 
@@ -65,6 +68,6 @@ module.exports = {
     jsonToArray,
     saveTempSV,
     saveInvSV,
-    timevalueCalibration,
-    getSecondaryInvID
+    getinv3ID,
+    cycleTimeFreqUdpateINV1INV2
 }

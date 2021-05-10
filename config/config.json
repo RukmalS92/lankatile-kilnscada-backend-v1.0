@@ -12,7 +12,7 @@
         "temeprature" : "/dev/ttyUSB0",
         "vfd" : "/dev/ttyUSB1"
     },
-    "timevalue_calibration" : 1,
+    "timevalue_calibration" : 3800,
     "tempcontrollerid" : [
         1,
         2,

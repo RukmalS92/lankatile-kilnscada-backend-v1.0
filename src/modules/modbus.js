@@ -5,7 +5,7 @@ const DATA_TYPES = require('modbus-rtu').DATA_TYPES;
 const SerialPort = require('serialport')
 const ieee754 = require('ieee754')
 
-let master;
+let master; 
 
 //get temperature controller ID from 
 const tempController = config.tempcontrollerid;
@@ -17,7 +17,7 @@ const com_ports = config.com_ports
 //register numbers
 let temp_pv_address = 2;
 let temp_sv_address = 4;
-let vfd_pv_address = 8502;
+let vfd_pv_address = 8503;
 let vfd_sv_address = 8502;
 
 //comport flag
@@ -79,9 +79,11 @@ const getTempData = async () => {
             if(temp_comport_available_flag === false){
                 throw new Error("ComPortError")
             }
+            
             data = await masterTemp.readHoldingRegisters(id, temp_pv_address, 1);
             finalData.push([id, data[0]]);
         } catch (error) {
+            // console.log(error.message)
             if(error.name === 'ModbusResponseTimeout'){
                 finalData.push([id,-1]);
             }
@@ -128,7 +130,7 @@ const getINVData = async() => {
                 }
                 data = await masterVFD.readHoldingRegisters(id, vfd_pv_address ,1);
                 let speedValue = parseFloat(data[0] / 10);
-                // console.log(speedValue, data)
+                console.log(speedValue, data)
                 finalData.push([id, speedValue]);
             } catch (error) {
                 if(error.name === 'ModbusResponseTimeout'){
