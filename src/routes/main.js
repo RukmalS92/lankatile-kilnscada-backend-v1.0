@@ -91,9 +91,10 @@ router.post('/cycleinvwr', async(req,res) => {
     const keys = req.keys;
     console.log(req.body)
     const values = Object.values(req.body); //this hold inv values as well as at last timevalue 
-    for (let index = 0; index < (keys.length - 1); index++) { //keys.length - 1 = to omit timevalue
+    for (let index = 0; index < (keys.length); index++) { //keys.length - 1 = to omit timevalue
         const key = keys[index];
         const value = values[index];
+        console.log(key, value)
         try {
             await modbusDev.updateINVData(key, value);
         } catch (error) {
@@ -150,7 +151,7 @@ router.get('/temphistory', async (req,res) => {
 
 //inverter history 
 router.get('/invhistory', async (req,res) => {
-    console.log(chalk.bgRedBright('Temperature History Get...'))
+    console.log(chalk.bgRedBright('Inverter History Get...'))
     const history_init_flag = parseInt(req.query.init);
     const device = req.query.device;    
     const currentDate = moment().format();

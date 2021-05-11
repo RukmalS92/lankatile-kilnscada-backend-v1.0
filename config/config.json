@@ -9,8 +9,8 @@
         "multipleStatements" : true
     },
     "com_ports" : {
-        "temeprature" : "/dev/ttyUSB0",
-        "vfd" : "/dev/ttyUSB1"
+        "temeprature" : "/dev/TEMP",
+        "vfd" : "/dev/INV"
     },
     "timevalue_calibration" : 3800,
     "tempcontrollerid" : [

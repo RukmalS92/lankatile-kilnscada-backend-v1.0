@@ -21,52 +21,74 @@ let vfd_pv_address = 8503;
 let vfd_sv_address = 8502;
 
 //comport flag
-let temp_comport_available_flag = false;
-let inv_comport_available_flag = false; 
+let temp_comport_available_flag = true;
+let inv_comport_available_flag = true; 
 
 //comports
 let serialPortTemp;
 let serialPortVFD;
 
+serialPortTemp = new SerialPort(com_ports.temeprature, {
+    baudRate: 9600,
+    parity: 'none'
+ });
+try {
+    masterTemp = new ModbusMaster(serialPortTemp, {responseTimeout : 50});
+    errorhandler.info("Modbus @Temperature Connection Complete ...")
+} catch (error) {
+    errorhandler.error(new Error("Error in Serial Port @Temperature Connection or modbus instance : ErrorType : " + error.name + " Original Error Message : " + error.message))
+}
+
+serialPortVFD = new SerialPort(com_ports.vfd, {
+    baudRate: 9600,
+    parity: 'none'
+ });
+try {
+    masterVFD = new ModbusMaster(serialPortVFD, {responseTimeout : 50});
+    errorhandler.info("Modbus @Inverter Connection Complete ...")
+} catch (error) {
+    errorhandler.error(new Error("Error in Serial Port @Inverter Connection or modbus instance : ErrorType : " + error.name + " Original Error Message : " + error.message))
+}
+
 //Temperature Controller modbus connection
-SerialPort.list()
-.then((ports) => {
-    if(ports.length === 0){
-        temp_comport_available_flag = false;
-        inv_comport_available_flag = false;
-    }
-    else if(ports.length > 0){
-        ports.forEach(port => {
-            if(port.path === com_ports.temeprature){
-                temp_comport_available_flag = true;
-                serialPortTemp = new SerialPort(com_ports.temeprature, {
-                    baudRate: 9600,
-                    parity: 'none'
-                 });
-                try {
-                    masterTemp = new ModbusMaster(serialPortTemp, {responseTimeout : 50});
-                    errorhandler.info("Modbus @Temperature Connection Complete ...")
-                } catch (error) {
-                    errorhandler.error(new Error("Error in Serial Port @Temperature Connection or modbus instance : ErrorType : " + error.name + " Original Error Message : " + error.message))
-                }
-            }
-            if(port.path === com_ports.vfd){
-                inv_comport_available_flag = true;
-                serialPortVFD = new SerialPort(com_ports.vfd, {
-                    baudRate: 9600,
-                    parity: 'none'
-                 });
-                try {
-                    masterVFD = new ModbusMaster(serialPortVFD, {responseTimeout : 50});
-                    errorhandler.info("Modbus @Inverter Connection Complete ...")
-                } catch (error) {
-                    errorhandler.error(new Error("Error in Serial Port @Inverter Connection or modbus instance : ErrorType : " + error.name + " Original Error Message : " + error.message))
-                }
-            }
-        })
-    }
-})
-.catch(error => errorhandler.error(error))
+// SerialPort.list()
+// .then((ports) => {
+//     if(ports.length === 0){
+//         temp_comport_available_flag = false;
+//         inv_comport_available_flag = false;
+//     }
+//     else if(ports.length > 0){
+//         ports.forEach(port => {
+//             if(port.path === com_ports.temeprature){
+//                 temp_comport_available_flag = true;
+//                 serialPortTemp = new SerialPort(com_ports.temeprature, {
+//                     baudRate: 9600,
+//                     parity: 'none'
+//                  });
+//                 try {
+//                     masterTemp = new ModbusMaster(serialPortTemp, {responseTimeout : 50});
+//                     errorhandler.info("Modbus @Temperature Connection Complete ...")
+//                 } catch (error) {
+//                     errorhandler.error(new Error("Error in Serial Port @Temperature Connection or modbus instance : ErrorType : " + error.name + " Original Error Message : " + error.message))
+//                 }
+//             }
+//             if(port.path === com_ports.vfd){
+//                 inv_comport_available_flag = true;
+//                 serialPortVFD = new SerialPort(com_ports.vfd, {
+//                     baudRate: 9600,
+//                     parity: 'none'
+//                  });
+//                 try {
+//                     masterVFD = new ModbusMaster(serialPortVFD, {responseTimeout : 50});
+//                     errorhandler.info("Modbus @Inverter Connection Complete ...")
+//                 } catch (error) {
+//                     errorhandler.error(new Error("Error in Serial Port @Inverter Connection or modbus instance : ErrorType : " + error.name + " Original Error Message : " + error.message))
+//                 }
+//             }
+//         })
+//     }
+// })
+// .catch(error => errorhandler.error(error))
 
 
 //read temperature module data : type int
